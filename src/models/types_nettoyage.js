@@ -2,11 +2,12 @@ const { DataTypes, Sequelize } = require("sequelize");
 const db = require('../../config/database');
 
 // models/types_nettoyage.js
-const Types_nettoyage = db.sequelize.define("Types_nettoyage", {
+const Types_nettoyages = db.sequelize.define("Types_nettoyage", {
     id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey: true,
     },
     libelle: {
       type: Sequelize.STRING,
@@ -22,4 +23,4 @@ const Types_nettoyage = db.sequelize.define("Types_nettoyage", {
     timestamps: false,
   });
 
-  module.exports = Types_nettoyage;
+  module.exports = Types_nettoyages;

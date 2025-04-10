@@ -1,6 +1,6 @@
 const { DataTypes, Sequelize } = require("sequelize");
 const db = require('../../config/database');
-const Employe = require('./employes');
+const Employes = require('./employes');
 
 // models/disponibilites_employes.js
 const Disponibilites_employes = db.sequelize.define("Disponibilites_employes", {
@@ -8,6 +8,7 @@ const Disponibilites_employes = db.sequelize.define("Disponibilites_employes", {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey: true,
     },
     id_employe: {
       type: Sequelize.INTEGER,
@@ -35,11 +36,11 @@ const Disponibilites_employes = db.sequelize.define("Disponibilites_employes", {
   });
 
   // Définir les relations
-Employe.hasMany(Disponibilites_employes, {
+Employes.hasMany(Disponibilites_employes, {
   foreignKey: 'id_employe',
   as: 'disponibilites'
 });
-Disponibilites_employes.belongsTo(Employe, {
+Disponibilites_employes.belongsTo(Employes, {
   foreignKey: 'id_employe',
   as: 'employe'
 });

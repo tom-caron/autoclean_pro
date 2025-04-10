@@ -1,10 +1,10 @@
 const { DataTypes, Sequelize } = require("sequelize");
 const db = require('../../config/database');
-const Utilisateur = require('./utilisateurs');
-const Agence = require('./agences');
-const Vehicule = require('./vehicules');
-const Type_nettoyage = require('./types_nettoyage');
-const Employe = require('./employes');
+const Utilisateurs = require('./utilisateurs');
+const Agences = require('./agences');
+const Vehicules = require('./vehicules');
+const Type_nettoyages = require('./types_nettoyage');
+const Employes = require('./employes');
 
 // models/rendez_vous.js
 const Rendez_vous = db.sequelize.define("Rendez_vous", {
@@ -12,6 +12,7 @@ const Rendez_vous = db.sequelize.define("Rendez_vous", {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey: true,
     },
     utilisateur_id: {
       type: Sequelize.INTEGER,
@@ -66,47 +67,47 @@ const Rendez_vous = db.sequelize.define("Rendez_vous", {
   });
 
   // Définir les relations
-Utilisateur.hasMany(Rendez_vous, {
+Utilisateurs.hasMany(Rendez_vous, {
   foreignKey: 'utilisateur_id',
   as: 'rendez_vous'
 });
-Rendez_vous.belongsTo(Utilisateur, {
+Rendez_vous.belongsTo(Utilisateurs, {
   foreignKey: 'utilisateur_id',
   as: 'utilisateur'
 });
 
-Agence.hasMany(Rendez_vous, {
+Agences.hasMany(Rendez_vous, {
   foreignKey: 'agence_id',
   as: 'rendez_vous'
 });
-Rendez_vous.belongsTo(Agence, {
+Rendez_vous.belongsTo(Agences, {
   foreignKey: 'agence_id',
   as: 'agence'
 });
 
-Vehicule.hasMany(Rendez_vous, {
+Vehicules.hasMany(Rendez_vous, {
   foreignKey: 'vehicule_id',
   as: 'rendez_vous'
 });
-Rendez_vous.belongsTo(Vehicule, {
+Rendez_vous.belongsTo(Vehicules, {
   foreignKey: 'vehicule_id',
   as: 'vehicule'
 });
 
-Type_nettoyage.hasMany(Rendez_vous, {
+Type_nettoyages.hasMany(Rendez_vous, {
   foreignKey: 'type_nettoyage_id',
   as: 'rendez_vous'
 });
-Rendez_vous.belongsTo(Type_nettoyage, {
+Rendez_vous.belongsTo(Type_nettoyages, {
   foreignKey: 'type_nettoyage_id',
   as: 'type_nettoyage'
 });
 
-Employe.hasMany(Rendez_vous, {
+Employes.hasMany(Rendez_vous, {
   foreignKey: 'employe_id',
   as: 'rendez_vous'
 });
-Rendez_vous.belongsTo(Employe, {
+Rendez_vous.belongsTo(Employes, {
   foreignKey: 'employe_id',
   as: 'employe'
 });

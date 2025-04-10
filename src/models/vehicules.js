@@ -8,6 +8,7 @@ const Vehicules = db.sequelize.define("Vehicules", {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey: true,
     },
     utilisateur_id: {
       type: Sequelize.INTEGER,

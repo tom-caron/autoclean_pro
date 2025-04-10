@@ -1,6 +1,6 @@
 const { DataTypes, Sequelize } = require("sequelize");
 const db = require('../../config/database');
-const Utilisateur = require('./utilisateurs');
+const Utilisateurs = require('./utilisateurs');
 
 // models/fidelite.js
 const Fidelites = db.sequelize.define("Fidelite", {
@@ -14,7 +14,7 @@ const Fidelites = db.sequelize.define("Fidelite", {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
-      model: Utilisateur,
+      model: Utilisateurs,
       key: 'id'
     }
   },
@@ -29,11 +29,11 @@ const Fidelites = db.sequelize.define("Fidelite", {
 });
 
 // Définir les relations
-Utilisateur.hasOne(Fidelites, {
+Utilisateurs.hasOne(Fidelites, {
   foreignKey: 'utilisateur_id',
   as: 'fidelite'
 });
-Fidelites.belongsTo(Utilisateur, {
+Fidelites.belongsTo(Utilisateurs, {
   foreignKey: 'utilisateur_id',
   as: 'utilisateur'
 });

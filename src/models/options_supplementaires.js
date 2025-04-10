@@ -7,6 +7,7 @@ const Options_supplementaires = db.sequelize.define("Options_supplementaires", {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey: true,
     },
     libelle: {
       type: Sequelize.STRING,

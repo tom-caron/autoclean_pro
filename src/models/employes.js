@@ -1,7 +1,7 @@
 const { DataTypes, Sequelize } = require("sequelize");
 const db = require('../../config/database');
-const Agence = require('./agences');
-const Role = require('./roles');
+const Agences = require('./agences');
+const Roles = require('./roles');
 
 // models/employes.js
 const Employes = db.sequelize.define("Employes", {
@@ -9,12 +9,13 @@ const Employes = db.sequelize.define("Employes", {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey: true,
     },
     agence_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-              model: Agence,
+              model: Agences,
               key: 'id'
           }
     },
@@ -34,7 +35,7 @@ const Employes = db.sequelize.define("Employes", {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-              model: Role,
+              model: Roles,
               key: 'id'
           }
     },
@@ -44,20 +45,20 @@ const Employes = db.sequelize.define("Employes", {
   });
 
   // Définir les relations
-Agence.hasMany(Employes, {
+Agences.hasMany(Employes, {
   foreignKey: 'agence_id',
   as: 'employes'
 });
-Employes.belongsTo(Agence, {
+Employes.belongsTo(Agences, {
   foreignKey: 'agence_id',
   as: 'agence'
 });
 
-Role.hasMany(Employes, {
+Roles.hasMany(Employes, {
   foreignKey: 'role_id',
   as: 'employes'
 });
-Employes.belongsTo(Role, {
+Employes.belongsTo(Roles, {
   foreignKey: 'role_id',
   as: 'role'
 });

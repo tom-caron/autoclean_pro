@@ -7,6 +7,7 @@ const Agences = db.sequelize.define("Agences", {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey: true,
     },
     nom: {
       type: Sequelize.STRING,

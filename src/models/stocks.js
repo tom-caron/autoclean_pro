@@ -1,6 +1,6 @@
 const { DataTypes, Sequelize } = require("sequelize");
 const db = require('../../config/database');
-const Agence = require('./agences');
+const Agences = require('./agences');
 
 // models/stocks.js
 const Stocks = db.sequelize.define("Stocks", {
@@ -8,6 +8,7 @@ const Stocks = db.sequelize.define("Stocks", {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey: true,
     },
     agence_id: {
       type: Sequelize.INTEGER,
@@ -33,7 +34,7 @@ Agence.hasMany(Stocks, {
   foreignKey: 'agence_id',
   as: 'stocks'
 });
-Stocks.belongsTo(Agence, {
+Stocks.belongsTo(Agences, {
   foreignKey: 'agence_id',
   as: 'agence'
 });

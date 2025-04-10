@@ -7,6 +7,7 @@ const Roles = db.sequelize.define("Roles", {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey: true,
     },
     nom: {
       type: Sequelize.INTEGER,

@@ -6,7 +6,14 @@
     <title>AutoClean Pro</title>
 </head>
 <body>
-    <h1>Salut tout le monde, ça va ?</h1>
-    <a href="/users/register">s'inscrire</a>
+    <h1>Accueil</h1>
+
+    <% if (!user) { %>
+        <a href="/users/register">s'inscrire</a>
+    <% } else { %>
+        <form action="/users/logout" method="post">
+            <button type="submit">Déconnexion</button>
+        </form>
+    <% } %>
 </body>
 </html>

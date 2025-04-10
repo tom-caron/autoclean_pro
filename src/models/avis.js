@@ -1,7 +1,7 @@
 const { DataTypes, Sequelize } = require("sequelize");
 const db = require('../../config/database');
-const Utilisateur = require('./utilisateurs');
-const Agence = require('./agences');
+const Utilisateurs = require('./utilisateurs');
+const Agences = require('./agences');
 
 // models/avis.js
 const Avis = db.sequelize.define("Avis", {
@@ -9,12 +9,13 @@ const Avis = db.sequelize.define("Avis", {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey: true,
     },
     utilisateur_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: Utilisateur,
+        model: Utilisateurs,
         key: 'id'
     }
     },
@@ -22,7 +23,7 @@ const Avis = db.sequelize.define("Avis", {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: Agence,
+        model: Agences,
         key: 'id'
     }
     },
@@ -43,20 +44,20 @@ const Avis = db.sequelize.define("Avis", {
   });
   
   // Définir les relations
-Utilisateur.hasMany(Avis, {
+Utilisateurs.hasMany(Avis, {
   foreignKey: 'utilisateur_id',
   as: 'avis'
 });
-Avis.belongsTo(Utilisateur, {
+Avis.belongsTo(Utilisateurs, {
   foreignKey: 'utilisateur_id',
   as: 'utilisateur'
 });
 
-Agence.hasMany(Avis, {
+Agences.hasMany(Avis, {
   foreignKey: 'agence_id',
   as: 'avis'
 });
-Avis.belongsTo(Agence, {
+Avis.belongsTo(Agences, {
   foreignKey: 'agence_id',
   as: 'agence'
 });

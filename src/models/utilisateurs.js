@@ -1,7 +1,6 @@
 const { DataTypes, Sequelize } = require("sequelize");
 const db = require('../../config/database');
-const Agence = require('./agences');
-const Fidelite = require("./fidelite");
+const Agences = require('./agences');
 
 // models/utilisateurs.js
 const Utilisateurs = db.sequelize.define("Utilisateurs", {
@@ -9,6 +8,7 @@ const Utilisateurs = db.sequelize.define("Utilisateurs", {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey: true,
     },
     nom: {
       type: Sequelize.STRING,
@@ -30,9 +30,9 @@ const Utilisateurs = db.sequelize.define("Utilisateurs", {
     },
     agence_favorie_id: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
-              model: Agence,
+              model: Agences,
               key: 'id'
           }
     },
@@ -48,11 +48,11 @@ const Utilisateurs = db.sequelize.define("Utilisateurs", {
     timestamps: true,
   });
 
-  Agence.hasMany(Utilisateurs, {
+  Agences.hasMany(Utilisateurs, {
     foreignKey: 'agence_favorie_id',
     as: 'utilisateurs_favoris'
   });
-  Utilisateurs.belongsTo(Agence, {
+  Utilisateurs.belongsTo(Agences, {
     foreignKey: 'agence_favorie_id',
     as: 'agence_favorie'
   });
