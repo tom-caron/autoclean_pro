@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rendez-vous</title>
+</head>
+<body>
+  <form action="/rendez-vous/create" method="post">
+    <!-- Agence -->
+    <label for="agence">Choisissez une agence :</label>
+    <select id="agence" name="agence_id" onchange="loadEmployes(this.value)" required>
+      <option value="">--Sélectionner une agence--</option>
+      <% agences.forEach(agence => { %>
+        <option value="<%= agence.id %>"><%= agence.nom %></option>
+      <% }) %>
+    </select>
+  
+    <!-- Employé -->
+    <label for="employe">Choisissez un employé :</label>
+    <select id="employe" name="employe_id" onchange="enableDate()" required disabled>
+      <option>Sélectionnez une agence d'abord</option>
+    </select>
+  
+    <!-- Date -->
+    <label for="date">Choisissez une date :</label>
+    <input type="date" id="date" name="date" onchange="loadCreneaux()" required disabled>
+  
+    <!-- Créneau -->
+    <label for="creneau">Créneau horaire :</label>
+    <select id="creneau" name="creneau" required disabled>
+      <option>Sélectionnez une date</option>
+    </select><br>
+
+        <!-- Véhicules -->
+        <label for="vehicule">Choisissez votre véhicule à nettoyer :</label>
+        <select id="vehicule" name="vehicule_id" required>
+          <option value="">--Sélectionner votre véhicule--</option>
+          <% vehicules.forEach(vehicule => { %>
+            <option value="<%= vehicule.id %>"><%= vehicule.marque %> - <%= vehicule.modele %></option>
+          <% }) %>
+        </select><br>
+
+    <!-- Type de nettoyage -->
+    <label>Type de nettoyage :</label><br>
+    <% typesNettoyages.forEach(type => { %>
+      <input type="radio" id="type-<%= type.id %>" name="type_nettoyage_id" value="<%= type.id %>" data-prix="<%= type.prix_base %>" required onchange="updatePrixTotal()">
+      <label for="type-<%= type.id %>"><%= type.libelle %> - <%= parseFloat(type.prix_base).toFixed(2) %> €</label><br>
+      <% }) %>
+
+
+    <!-- Options supplémentaires -->
+    <label>Options supplémentaires :</label><br>
+    <% optionsSupplementaires.forEach(option => { %>
+      <input type="checkbox" id="option-<%= option.id %>" name="options_supplementaires[]" value="<%= option.id %>" data-prix="<%= option.prix %>" onchange="updatePrixTotal()" disabled>
+      <label for="option-<%= option.id %>"><%= option.libelle %> - <%= parseFloat(option.prix).toFixed(2) %> €</label><br>
+    <% }) %>
+
+
+    <input type="hidden" id="prix_total" name="prix_total" value="0">
+    <p><strong>Prix total : <span id="prix-total">0.00</span> €</strong></p>
+
+  
+    <button type="submit">Réserver</button>
+  </form>
+  
+
+
+  <script>
+    // Pour que le client ne puisse pas choisir une date passée
+window.addEventListener('DOMContentLoaded', () => {
+  const dateInput = document.getElementById('date');
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.setAttribute('min', today);
+});
+
+async function loadEmployes(agenceId) {
+  const response = await fetch(`/api/employes/${agenceId}`);
+  const employes = await response.json();
+  const employeSelect = document.getElementById('employe');
+
+  employeSelect.innerHTML = "";
+
+  const defaultOption = document.createElement('option');
+  defaultOption.textContent = "--Sélectionner un employé--";
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  employeSelect.appendChild(defaultOption);
+
+  employes.forEach(e => {
+    const opt = document.createElement('option');
+    opt.value = e.id;
+    opt.textContent = `${e.nom} ${e.prenom}`;
+    employeSelect.appendChild(opt);
+  });
+
+  employeSelect.disabled = false;
+  document.getElementById('date').disabled = true;
+  document.getElementById('creneau').disabled = true;
+  validateForm(); // Validation immédiate après avoir chargé les employés
+}
+
+function enableDate() {
+  document.getElementById('date').disabled = false;
+  document.getElementById('creneau').disabled = true;
+  validateForm(); // Validation immédiate après avoir activé la date
+}
+
+async function loadCreneaux() {
+  const employeId = document.getElementById('employe').value;
+  const date = document.getElementById('date').value;
+
+  const response = await fetch(`/api/disponibilites/${employeId}/${date}`);
+  const creneaux = await response.json();
+
+  const creneauSelect = document.getElementById('creneau');
+  creneauSelect.innerHTML = "";
+
+  if (creneaux.length === 0) {
+    creneauSelect.innerHTML = "<option>Aucun créneau disponible</option>";
+  } else {
+    creneaux.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.heure;
+      opt.textContent = c.heure;
+      creneauSelect.appendChild(opt);
+    });
+    creneauSelect.disabled = false;
+  }
+  validateForm(); // Validation immédiate après avoir chargé les créneaux
+}
+
+function updatePrixTotal() {
+  let total = 0;
+
+  // Prix du type de nettoyage sélectionné
+  const typeRadio = document.querySelector('input[name="type_nettoyage_id"]:checked');
+  if (typeRadio) {
+    total += parseFloat(typeRadio.dataset.prix);
+    enableOptionsSupplementaires(true);  // Activer les options supplémentaires si un type de nettoyage est sélectionné
+  } else {
+    enableOptionsSupplementaires(false);  // Désactiver les options supplémentaires si aucun type de nettoyage n'est sélectionné
+  }
+
+  // Prix des options supplémentaires cochées
+  const checkedOptions = document.querySelectorAll('input[name="options_supplementaires[]"]:checked');
+  checkedOptions.forEach(option => {
+    total += parseFloat(option.dataset.prix);
+  });
+
+  // Affichage du total
+  document.getElementById('prix-total').textContent = total.toFixed(2);
+  document.getElementById('prix_total').value = total.toFixed(2);
+}
+
+function enableOptionsSupplementaires(enable) {
+  const optionCheckboxes = document.querySelectorAll('input[name="options_supplementaires[]"]');
+  optionCheckboxes.forEach(checkbox => {
+    checkbox.disabled = false; // Toujours envoyer les valeurs
+    checkbox.parentElement.style.display = enable ? 'block' : 'none'; // Cache si tu veux vraiment qu'on ne les coche pas
+  });
+}
+
+
+function validateForm() {
+  const employeSelect = document.getElementById('employe');
+  const dateInput = document.getElementById('date');
+  const creneauSelect = document.getElementById('creneau');
+  const submitButton = document.querySelector('button[type="submit"]');
+  
+  // Validation des champs
+  const isEmployeValid = employeSelect.value !== "";
+  const isDateValid = dateInput.value !== "";
+  const isCreneauValid = creneauSelect.value !== "";
+
+  // Activation/Désactivation du bouton de soumission en fonction de la validation
+  if (isEmployeValid && isDateValid && isCreneauValid) {
+    submitButton.disabled = false; // Le formulaire peut être soumis
+  } else {
+    submitButton.disabled = true; // Le formulaire ne peut pas être soumis
+  }
+}
+
+// Appel initial de validation au chargement de la page
+validateForm();
+
+const form = document.querySelector('form');
+
+  form.addEventListener('submit', (e) => {
+    updatePrixTotal(); // recalculer le prix avant envoi
+  });
+
+  </script>
+  
+</body>
+</html>

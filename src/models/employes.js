@@ -31,7 +31,7 @@ const Employes = db.sequelize.define("Employes", {
     telephone: {
       type: Sequelize.STRING,
     },
-    role_id: {
+    id_role: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
@@ -55,11 +55,11 @@ Employes.belongsTo(Agences, {
 });
 
 Roles.hasMany(Employes, {
-  foreignKey: 'role_id',
+  foreignKey: 'id_role',
   as: 'employes'
 });
 Employes.belongsTo(Roles, {
-  foreignKey: 'role_id',
+  foreignKey: 'id_role',
   as: 'role'
 });
   

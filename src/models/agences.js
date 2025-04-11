@@ -27,7 +27,7 @@ const Agences = db.sequelize.define("Agences", {
     url_localisation: {
       type: Sequelize.STRING,
     },
-    horaire_ouverture: {
+    horaires_ouverture: {
       type: Sequelize.JSON,
     },
   }, {

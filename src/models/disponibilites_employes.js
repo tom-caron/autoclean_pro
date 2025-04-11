@@ -14,7 +14,7 @@ const Disponibilites_employes = db.sequelize.define("Disponibilites_employes", {
       type: Sequelize.INTEGER,
       allowNull: false,
             references: {
-              model: Employe,
+              model: Employes,
               key: 'id'
             }
     },

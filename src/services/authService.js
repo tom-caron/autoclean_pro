@@ -9,7 +9,7 @@ const authService = {
           email: user.email,
         };
       
-        return jwt.sign(tokenData, 'votre_secret', { expiresIn: '1h' });
+        return jwt.sign(tokenData, 'votre_secret', { expiresIn: '5h' });
       },
 }
 

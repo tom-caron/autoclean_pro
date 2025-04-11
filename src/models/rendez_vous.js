@@ -18,7 +18,7 @@ const Rendez_vous = db.sequelize.define("Rendez_vous", {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: Utilisateur,
+        model: Utilisateurs,
         key: 'id'
     }
     },
@@ -26,7 +26,7 @@ const Rendez_vous = db.sequelize.define("Rendez_vous", {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: Agence,
+        model: Agences,
         key: 'id'
     }
     },
@@ -34,7 +34,7 @@ const Rendez_vous = db.sequelize.define("Rendez_vous", {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: Vehicule,
+        model: Vehicules,
         key: 'id'
     }
     },
@@ -42,15 +42,14 @@ const Rendez_vous = db.sequelize.define("Rendez_vous", {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: Type_nettoyage,
+        model: Type_nettoyages,
         key: 'id'
     }
     },
     employe_id: {
       type: Sequelize.INTEGER,
-      defaultValue: NULL,
       references: {
-        model: Employe,
+        model: Employes,
         key: 'id'
     }
     },
@@ -60,6 +59,9 @@ const Rendez_vous = db.sequelize.define("Rendez_vous", {
     },
     statut: {
       type: Sequelize.STRING,
+    },
+    prix_total: {
+      type: Sequelize.FLOAT,
     },
   }, {
     tableName: "rendez_vous",
