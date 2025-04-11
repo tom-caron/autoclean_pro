@@ -64,133 +64,117 @@
     <button type="submit">Réserver</button>
   </form>
   
-
-
   <script>
-    // Pour que le client ne puisse pas choisir une date passée
-window.addEventListener('DOMContentLoaded', () => {
-  const dateInput = document.getElementById('date');
-  const today = new Date().toISOString().split('T')[0];
-  dateInput.setAttribute('min', today);
-});
-
-async function loadEmployes(agenceId) {
-  const response = await fetch(`/api/employes/${agenceId}`);
-  const employes = await response.json();
-  const employeSelect = document.getElementById('employe');
-
-  employeSelect.innerHTML = "";
-
-  const defaultOption = document.createElement('option');
-  defaultOption.textContent = "--Sélectionner un employé--";
-  defaultOption.disabled = true;
-  defaultOption.selected = true;
-  employeSelect.appendChild(defaultOption);
-
-  employes.forEach(e => {
-    const opt = document.createElement('option');
-    opt.value = e.id;
-    opt.textContent = `${e.nom} ${e.prenom}`;
-    employeSelect.appendChild(opt);
-  });
-
-  employeSelect.disabled = false;
-  document.getElementById('date').disabled = true;
-  document.getElementById('creneau').disabled = true;
-  validateForm(); // Validation immédiate après avoir chargé les employés
-}
-
-function enableDate() {
-  document.getElementById('date').disabled = false;
-  document.getElementById('creneau').disabled = true;
-  validateForm(); // Validation immédiate après avoir activé la date
-}
-
-async function loadCreneaux() {
-  const employeId = document.getElementById('employe').value;
-  const date = document.getElementById('date').value;
-
-  const response = await fetch(`/api/disponibilites/${employeId}/${date}`);
-  const creneaux = await response.json();
-
-  const creneauSelect = document.getElementById('creneau');
-  creneauSelect.innerHTML = "";
-
-  if (creneaux.length === 0) {
-    creneauSelect.innerHTML = "<option>Aucun créneau disponible</option>";
-  } else {
-    creneaux.forEach(c => {
-      const opt = document.createElement('option');
-      opt.value = c.heure;
-      opt.textContent = c.heure;
-      creneauSelect.appendChild(opt);
+    // Empêcher la sélection d'une date passée
+    document.addEventListener('DOMContentLoaded', () => {
+      const dateInput = document.getElementById('date');
+      dateInput.min = new Date().toISOString().split('T')[0];
     });
-    creneauSelect.disabled = false;
-  }
-  validateForm(); // Validation immédiate après avoir chargé les créneaux
-}
-
-function updatePrixTotal() {
-  let total = 0;
-
-  // Prix du type de nettoyage sélectionné
-  const typeRadio = document.querySelector('input[name="type_nettoyage_id"]:checked');
-  if (typeRadio) {
-    total += parseFloat(typeRadio.dataset.prix);
-    enableOptionsSupplementaires(true);  // Activer les options supplémentaires si un type de nettoyage est sélectionné
-  } else {
-    enableOptionsSupplementaires(false);  // Désactiver les options supplémentaires si aucun type de nettoyage n'est sélectionné
-  }
-
-  // Prix des options supplémentaires cochées
-  const checkedOptions = document.querySelectorAll('input[name="options_supplementaires[]"]:checked');
-  checkedOptions.forEach(option => {
-    total += parseFloat(option.dataset.prix);
-  });
-
-  // Affichage du total
-  document.getElementById('prix-total').textContent = total.toFixed(2);
-  document.getElementById('prix_total').value = total.toFixed(2);
-}
-
-function enableOptionsSupplementaires(enable) {
-  const optionCheckboxes = document.querySelectorAll('input[name="options_supplementaires[]"]');
-  optionCheckboxes.forEach(checkbox => {
-    checkbox.disabled = false; // Toujours envoyer les valeurs
-    checkbox.parentElement.style.display = enable ? 'block' : 'none'; // Cache si tu veux vraiment qu'on ne les coche pas
-  });
-}
-
-
-function validateForm() {
-  const employeSelect = document.getElementById('employe');
-  const dateInput = document.getElementById('date');
-  const creneauSelect = document.getElementById('creneau');
-  const submitButton = document.querySelector('button[type="submit"]');
-  
-  // Validation des champs
-  const isEmployeValid = employeSelect.value !== "";
-  const isDateValid = dateInput.value !== "";
-  const isCreneauValid = creneauSelect.value !== "";
-
-  // Activation/Désactivation du bouton de soumission en fonction de la validation
-  if (isEmployeValid && isDateValid && isCreneauValid) {
-    submitButton.disabled = false; // Le formulaire peut être soumis
-  } else {
-    submitButton.disabled = true; // Le formulaire ne peut pas être soumis
-  }
-}
-
-// Appel initial de validation au chargement de la page
-validateForm();
-
-const form = document.querySelector('form');
-
-  form.addEventListener('submit', (e) => {
-    updatePrixTotal(); // recalculer le prix avant envoi
-  });
-
-  </script>
+    
+    // Récupérer les employés d'une agence
+    async function loadEmployes(agenceId) {
+      if (!agenceId) return;
+    
+      try {
+        const response = await fetch(`/api/employes/${agenceId}`);
+        const employes = await response.json();
+        const employeSelect = document.getElementById('employe');
+    
+        employeSelect.innerHTML = '<option disabled selected>--Sélectionner un employé--</option>';
+    
+        employes.forEach(e => {
+          employeSelect.innerHTML += `<option value="${e.id}">${e.nom} ${e.prenom}</option>`;
+        });
+    
+        employeSelect.disabled = false;
+        resetDateEtCreneau();
+        validateForm();
+      } catch (error) {
+        console.error('Erreur lors du chargement des employés', error);
+      }
+    }
+    
+    // Activer le champ date après choix d'un employé
+    function enableDate() {
+      document.getElementById('date').disabled = false;
+      resetCreneau();
+      validateForm();
+    }
+    
+    // Récupérer les créneaux disponibles
+    async function loadCreneaux() {
+      const employeId = document.getElementById('employe').value;
+      const date = document.getElementById('date').value;
+      const creneauSelect = document.getElementById('creneau');
+    
+      if (!employeId || !date) return;
+    
+      try {
+        const response = await fetch(`/api/disponibilites/${employeId}/${date}`);
+        const creneaux = await response.json();
+    
+        creneauSelect.innerHTML = creneaux.length
+          ? creneaux.map(c => `<option value="${c.heure}">${c.heure}</option>`).join('')
+          : '<option>Aucun créneau disponible</option>';
+    
+        creneauSelect.disabled = creneaux.length === 0;
+        validateForm();
+      } catch (error) {
+        console.error('Erreur lors du chargement des créneaux', error);
+      }
+    }
+    
+    // Mettre à jour le prix total
+    function updatePrixTotal() {
+      let total = 0;
+    
+      const typeSelected = document.querySelector('input[name="type_nettoyage_id"]:checked');
+      if (typeSelected) {
+        total += parseFloat(typeSelected.dataset.prix);
+        toggleOptionsSupplementaires(true);
+      } else {
+        toggleOptionsSupplementaires(false);
+      }
+    
+      document.querySelectorAll('input[name="options_supplementaires[]"]:checked').forEach(option => {
+        total += parseFloat(option.dataset.prix);
+      });
+    
+      document.getElementById('prix-total').textContent = total.toFixed(2);
+      document.getElementById('prix_total').value = total.toFixed(2);
+    }
+    
+    // Activer / désactiver les options supplémentaires
+    function toggleOptionsSupplementaires(enable) {
+      document.querySelectorAll('input[name="options_supplementaires[]"]').forEach(checkbox => {
+        checkbox.disabled = false; // pour que le formulaire envoie quand même
+        checkbox.parentElement.style.display = enable ? 'block' : 'none';
+      });
+    }
+    
+    // Réinitialiser les champs date et créneau
+    function resetDateEtCreneau() {
+      document.getElementById('date').value = "";
+      document.getElementById('date').disabled = true;
+      resetCreneau();
+    }
+    
+    // Réinitialiser le champ créneau
+    function resetCreneau() {
+      const creneauSelect = document.getElementById('creneau');
+      creneauSelect.innerHTML = '<option>Sélectionnez une date</option>';
+      creneauSelect.disabled = true;
+    }
+    
+    // Vérifier la validité du formulaire
+    function validateForm() {
+      const employeValid = document.getElementById('employe').value !== "";
+      const dateValid = document.getElementById('date').value !== "";
+      const creneauValid = document.getElementById('creneau').value !== "";
+      document.querySelector('button[type="submit"]').disabled = !(employeValid && dateValid && creneauValid);
+    }
+    </script>
+    
   
 </body>
 </html>

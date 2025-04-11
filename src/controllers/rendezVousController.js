@@ -22,7 +22,18 @@ const rendezVousController = {
       creerRendezVous : async (req, res) => {
         try {
 
-          const combinedDateTime = new Date(`${req.body.date}T${req.body.creneau}:00`);
+          const [year, month, day] = req.body.date.split('-'); // yyyy-MM-dd
+          const [hour, minute] = req.body.creneau.split(':');  // HH:mm
+
+          const combinedDateTime = new Date(
+            year,
+            month - 1, // En JS les mois commencent à 0 (Janvier = 0)
+            day,
+            hour,
+            minute
+          );
+
+          combinedDateTime.setHours(combinedDateTime.getHours() + 2);
 
           const data = {
             utilisateur_id: req.user.userId,
