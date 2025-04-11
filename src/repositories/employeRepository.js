@@ -10,7 +10,11 @@ const employeRepository = {
             id_role: 3
           }
         });
-      }
+      },
+
+      findEmployeByEmail : async (email) => {
+        return await Employes.findOne({ where: { email } });
+      },
 
 }
 

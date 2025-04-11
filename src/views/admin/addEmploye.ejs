@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoClean Pro</title>
+</head>
+<body>
+    <h1>Inscription</h1>
+
+    <form action="/users/register" method="post">
+        <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+            <div class="alert alert-danger" role="alert">
+                <% errors.forEach(error => { %>
+                    <p><%= error.msg %></p>
+                <% }) %>
+            </div>
+        <% } %>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="nom">Nom</label>
+                <input type="text" class="form-control" id="nom" name="nom" value="<%= visiteur ? visiteur.nom : '' %>" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="prenom">Prénom</label>
+                <input type="text" class="form-control" id="prenom" name="prenom" value="<%= visiteur ? visiteur.prenom : '' %>" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" class="form-control" id="email" name="email" value="<%= visiteur ? visiteur.email : '' %>" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label for="password_confirm">Confirmer le mot de passe</label>
+            <input type="password" class="form-control" id="password_confirm" name="password_confirm" required>
+        </div>
+        <!-- Nouveau champ Téléphone -->
+        <div class="form-group">
+            <label for="telephone">Téléphone</label>
+            <input type="tel" class="form-control" id="telephone" name="telephone" value="<%= visiteur ? visiteur.telephone : '' %>" required>
+        </div>
+        <!-- Nouveau champ Adresse -->
+        <div class="form-group">
+            <label for="adresse">Adresse</label>
+            <textarea class="form-control" id="adresse" name="adresse" rows="3" required><%= visiteur ? visiteur.adresse : '' %></textarea>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary custom-btn">S'inscrire</button>
+        </div>
+        <p class="sousTitre">Vous avez déjà un compte ? <a href="/users/login">Connectez-vous !</a></p>
+    </form>
+    
+</body>
+</html>

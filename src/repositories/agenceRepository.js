@@ -5,6 +5,10 @@ const agenceRepository = {
       findAllAgence : async () => {
         return await Agences.findAll();
       },
+
+      findAgenceById : async (agenceId) => {
+        return await Agences.findByPk(agenceId)
+      }
 }
 
 

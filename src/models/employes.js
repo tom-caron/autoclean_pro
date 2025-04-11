@@ -28,6 +28,9 @@ const Employes = db.sequelize.define("Employes", {
     email: {
       type: Sequelize.STRING,
     },
+    mot_de_passe: {
+      type: Sequelize.STRING,
+    },
     telephone: {
       type: Sequelize.STRING,
     },

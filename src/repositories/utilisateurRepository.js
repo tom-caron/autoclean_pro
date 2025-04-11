@@ -15,7 +15,7 @@ const utilisateurRepository = {
         return newUser;
       },
 
-      findByEmail : async (email) => {
+      findUtilisateurByEmail : async (email) => {
         return await Utilisateurs.findOne({ where: { email } });
       },
 }

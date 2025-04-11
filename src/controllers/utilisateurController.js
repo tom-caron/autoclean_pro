@@ -1,7 +1,4 @@
-const { Op } = require('sequelize');
 const { validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const utilisateurService = require('../services/utilisateurService');
 const authService = require ('../services/authService');
 
@@ -42,12 +39,10 @@ const utilisateurController = {
     signIn: async (req, res) => {
       try {
         const { email, password } = req.body;
-    
         const user = await utilisateurService.loginUtilisateur(email, password);
     
         const token = authService.generateToken(user);
         res.cookie('token', token, { httpOnly: true });
-        console.log("Utilisateur connecté");
     
         return res.redirect('/');
       } catch (error) {

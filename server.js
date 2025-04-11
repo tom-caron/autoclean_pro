@@ -20,11 +20,13 @@ const index = require('./src/routes/index');
 const userRoutes = require('./src/routes/utilisateurRoutes');
 const rendezVousRoutes = require('./src/routes/rendezVousRoutes');
 const apiRoutes = require('./src/routes/apiRoutes');
+const employeRoutes = require('./src/routes/employeRoutes');
 
 app.use('/', index);
 app.use('/users', userRoutes);
 app.use('/rendez-vous', rendezVousRoutes);
 app.use('/api', apiRoutes);
+app.use('/employe', employeRoutes);
 
 
 app.set('view engine', 'ejs');
