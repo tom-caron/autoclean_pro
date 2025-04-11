@@ -173,7 +173,7 @@
                 
                 <h1>Welcome tout court !</h1>
                 
-                <form>
+                <form action="/users/register" method="post">
                     <!-- Affichage des erreurs -->
                     <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
                         <div class="alert alert-danger" role="alert">
@@ -186,6 +186,10 @@
                     <div class="mb-3">
                             <label for="nom" class="form-label">Nom</label>
                             <input type="text" class="form-control" id="nom" name="nom" value="<%= visiteur ? visiteur.nom : '' %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prenom" class="form-label">Prénom</label>
+                        <input type="text" class="form-control" id="prenom" name="prenom" value="<%= visiteur ? visiteur.prenom : '' %>" required>
                     </div>
 
                     <div class="mb-3">

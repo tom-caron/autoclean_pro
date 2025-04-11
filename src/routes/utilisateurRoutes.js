@@ -23,8 +23,6 @@ router.post('/register', [
         }
         return true;
     }),
-    body('telephone').notEmpty().withMessage('Un numéro de téléphone est requis').isLength({ max: 10 }).withMessage('Le numéro ne doit pas dépasser 10 chiffres'),
-    body('adresse').notEmpty().withMessage('Une adresse est requise'),
 
 ], utilisateurController.signUp);
 

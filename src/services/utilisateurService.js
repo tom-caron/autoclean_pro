@@ -20,16 +20,13 @@ const utilisateurService = {
 
       loginUtilisateur : async (email, password) => {
         const user = await utilisateurRepository.findUtilisateurByEmail(email);
-
+        console.log(user)
         if (!user) {
-
           const user = await employeRepository.findEmployeByEmail(email);
-          console.log("je passe là")
-          console.log(user)
-        } else{
-          const match = await bcrypt.compare(password, user.mot_de_passe);
-
         }
+
+        const match = await bcrypt.compare(password, user.mot_de_passe);
+
       
         if (!match) {
             throw new Error("Mot de passe incorrect");
