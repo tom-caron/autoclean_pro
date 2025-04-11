@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>AutoClean Pro - Lavage de Voiture</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+        <div class="container">
+            <a class="navbar-brand" href="#">AutoClean Pro</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">À propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-primary rounded-pill px-4" href="users/login">Connexion</a>
+                        <a class="btn btn-primary rounded-pill px-4" href="#">Réserver</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h1 class="fw-bold mb-4">Découvrez le lavage de voiture ultime</h1>
+                    <p class="lead text-muted mb-4">Chez AutoClean Pro, nous offrons un service de lavage de voiture de qualité supérieure avec une attention particulière aux détails. Redonnez à votre véhicule son éclat d'origine.</p>
+                    <a href="#" class="btn btn-primary rounded-pill px-4 py-2 me-2">Réserver maintenant</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="placeholder-img">
+                        <i class="fas fa-image fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Overview Section -->
+    <section class="gray-section">
+        <div class="container">
+            <h2 class="text-center mb-5">Découvrez nos services de lavage de voiture</h2>
+            <p class="text-center text-muted mb-5">Chez AutoClean Pro, nous offrons une gamme complète de services de lavage de voiture adaptés à tous les besoins. Que vous recherchiez un lavage rapide ou un traitement complet, nous avons ce qu'il vous faut.</p>
+            
+            <div class="row g-4">
+                <div class="col-md-4 text-center">
+                    <div class="service-icon mx-auto">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h4>Lavage Extérieur : Brillance et Protection</h4>
+                    <p class="text-muted">Un lavage complet de l'extérieur de votre véhicule pour une brillance impeccable.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="service-icon mx-auto">
+                        <i class="fas fa-couch"></i>
+                    </div>
+                    <h4>Lavage Intérieur : Confort et Propreté</h4>
+                    <p class="text-muted">Nettoyage en profondeur de l'habitacle pour un confort optimal.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="service-icon mx-auto">
+                        <i class="fas fa-spray-can"></i>
+                    </div>
+                    <h4>Détail Complet : Soin et Finition Parfaite</h4>
+                    <p class="text-muted">Un traitement complet pour redonner à votre véhicule son aspect neuf.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Services Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Nos Services de Lavage de Voitures</h2>
+            <p class="text-center text-muted mb-5">Chez AutoClean Pro, nous offrons une gamme complète de services de lavage de voiture adaptés à tous les besoins. Découvrez nos différentes formules et choisissez celle qui convient le mieux à votre véhicule.</p>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="d-flex align-items-start">
+                        <div class="service-icon me-3">
+                            <i class="fas fa-car-wash"></i>
+                        </div>
+                        <div>
+                            <h4>Lavage Extérieur de Haute Qualité</h4>
+                            <p class="text-muted">Notre lavage extérieur comprend un nettoyage complet de la carrosserie, des jantes et des vitres pour une brillance impeccable.</p>
+                            <a href="#" class="text-decoration-none">En savoir plus <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex align-items-start">
+                        <div class="service-icon me-3">
+                            <i class="fas fa-vacuum-cleaner"></i>
+                        </div>
+                        <div>
+                            <h4>Nettoyage Intérieur Complet et Soigné</h4>
+                            <p class="text-muted">Notre service de nettoyage intérieur inclut l'aspiration, le nettoyage des surfaces et la désinfection pour un habitacle comme neuf.</p>
+                            <a href="#" class="text-decoration-none">En savoir plus <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex align-items-start">
+                        <div class="service-icon me-3">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div>
+                            <h4>Forfaits Spéciaux et Promotions Mensuelles</h4>
+                            <p class="text-muted">Découvrez nos forfaits spéciaux et nos promotions mensuelles pour entretenir votre véhicule à prix avantageux.</p>
+                            <a href="#" class="text-decoration-none">En savoir plus <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="stats-card">
+                <div class="row">
+                    <div class="col-lg-6 mb-4 mb-lg-0">
+                        <h2 class="fw-bold mb-4">Découvrez nos statistiques impressionnantes sur le lavage de voitures.</h2>
+                        <p class="text-muted mb-4">Chez AutoClean Pro, nous sommes fiers de nos résultats. Découvrez quelques chiffres qui témoignent de notre engagement envers la qualité et la satisfaction client.</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <div class="stat-number">95%</div>
+                                <p class="text-muted">Taux de satisfaction client</p>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-number">10 000</div>
+                                <p class="text-muted">Voitures lavées par mois</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="testimonial-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                    </div>
+                    <p class="lead mb-4">"Le service offert chez AutoClean Pro est simplement exceptionnel ! Ma voiture n'a jamais été aussi propre. Je recommande vivement leurs services."</p>
+                    <p class="fw-bold mb-1">Marie Dupont</p>
+                    <p class="text-muted small">Cliente fidèle depuis 2020</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-4">Réservez votre lavage de voiture</h2>
+                    <p class="text-muted mb-4">Planifiez votre rendez-vous en quelques clics et profitez de nos services de qualité.</p>
+                    <a href="#" class="btn btn-primary rounded-pill px-4 py-2">Réserver maintenant</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="d-flex justify-content-end">
+                        <a href="#" class="text-decoration-none">En savoir plus <i class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="mb-5">FAQ</h2>
+            <p class="text-muted mb-5">Trouvez les réponses à vos questions les plus fréquentes concernant nos services de lavage de voiture.</p>
+            
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item mb-3 border">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            Quels services offrez-vous ?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Nous offrons une gamme complète de services de lavage de voiture, du lavage extérieur simple au détail complet. Nos services incluent le nettoyage de la carrosserie, des jantes, des vitres, ainsi que le nettoyage intérieur avec aspiration, nettoyage des surfaces et désinfection.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item mb-3 border">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                            Combien de temps dure un lavage ?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            La durée du lavage dépend du service choisi. Un lavage extérieur standard prend environ 30 minutes, tandis qu'un détail complet peut prendre de 2 à 4 heures selon l'état du véhicule et les options choisies.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item mb-3 border">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                            Faut-il prendre rendez-vous ?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Pour un service optimal, nous recommandons de prendre rendez-vous, surtout pour les services de détail complet. Cependant, nous acceptons également les clients sans rendez-vous en fonction de la disponibilité.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item mb-3 border">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                            Utilisez-vous des produits écologiques ?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Oui, nous utilisons principalement des produits écologiques et biodégradables pour le lavage de votre véhicule. Notre engagement envers l'environnement est une priorité, et nous veillons à minimiser notre impact écologique.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item mb-3 border">
+                    <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                            Où êtes-vous situés ?
+                        </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Nous avons plusieurs centres de lavage dans la région. Notre centre principal est situé au 123 Avenue des Lavages, 75001 Paris. Vous pouvez consulter notre page "Contact" pour trouver le centre le plus proche de chez vous.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <h4 class="mb-4">Vous avez encore des questions ?</h4>
+                <a href="#" class="btn btn-outline-primary rounded-pill px-4 py-2">Contactez-nous</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="gray-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <h2 class="mb-4">Restez informé avec notre newsletter</h2>
+                    <p class="text-muted mb-4">Abonnez-vous à notre newsletter pour recevoir nos offres spéciales et nos conseils d'entretien automobile.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Votre adresse email">
+                        <button class="btn btn-primary" type="button">S'abonner</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Info Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-envelope fa-2x mb-3 text-primary"></i>
+                    <h5>Email</h5>
+                    <p class="text-muted">info@autocleanpro-lavage.com</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-phone fa-2x mb-3 text-primary"></i>
+                    <h5>Téléphone</h5>
+                    <p class="text-muted">+33 1 23 45 67 89</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-map-marker-alt fa-2x mb-3 text-primary"></i>
+                    <h5>Adresse</h5>
+                    <p class="text-muted">123 Avenue des Lavages, 75001 Paris</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row g-4 mb-5">
+                <div class="col-lg-3 col-md-6">
+                    <a class="navbar-brand text-white mb-4 d-block" href="#">AutoClean Pro</a>
+                    <p class="text-white opacity-75">Spécialiste du lavage de voiture de qualité depuis 2010.</p>
+                </div>
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h5>Liens rapides</h5>
+                    <ul>
+                        <li><a href="#">Accueil</a></li>
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h5>Nos services</h5>
+                    <ul>
+                        <li><a href="#">Lavage extérieur</a></li>
+                        <li><a href="#">Nettoyage intérieur</a></li>
+                        <li><a href="#">Détail complet</a></li>
+                        <li><a href="#">Polissage</a></li>
+                        <li><a href="#">Protection céramique</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h5>Contact</h5>
+                    <ul>
+                        <li><a href="#">info@autocleanpro-lavage.com</a></li>
+                        <li><a href="#">+33 1 23 45 67 89</a></li>
+                        <li><a href="#">123 Avenue des Lavages, 75001 Paris</a></li>
+                    </ul>
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-white opacity-25">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="text-white opacity-75 small">© 2023 AutoClean Pro. Tous droits réservés.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="text-white opacity-75 small">
+                        <a href="#" class="text-white opacity-75 me-3">Politique de confidentialité</a>
+                        <a href="#" class="text-white opacity-75">Conditions d'utilisation</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
