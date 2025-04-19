@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const utilisateurService = require('../services/utilisateurService');
 const authService = require ('../services/authService');
+const employeService = require('../services/employeService')
 
 const utilisateurController = {
     signUp: async (req, res) => {

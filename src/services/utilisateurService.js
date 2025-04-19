@@ -18,23 +18,34 @@ const utilisateurService = {
         return newUser;
       },
 
-      loginUtilisateur : async (email, password) => {
-        const user = await utilisateurRepository.findUtilisateurByEmail(email);
-        console.log(user)
+      loginUtilisateur: async (email, password) => {
+        let user = await utilisateurRepository.findUtilisateurByEmail(email);
+      
         if (!user) {
-          const user = await employeRepository.findEmployeByEmail(email);
+          user = await employeRepository.findEmployeByEmail(email);
         }
-
+      
+        if (!user) {
+          throw new Error("Utilisateur non trouvé");
+        }
+      
         const match = await bcrypt.compare(password, user.mot_de_passe);
-
       
         if (!match) {
-            throw new Error("Mot de passe incorrect");
-
+          throw new Error("Mot de passe incorrect");
         }
       
         return user;
-      }
+      },
+      
+
+      deconnexion: (req, res) => {
+        try {
+          utilisateurRepository.logout();
+        } catch (error) {
+          console.error(error.message);
+        }
+      },
 }
 
 

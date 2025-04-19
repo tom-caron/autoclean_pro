@@ -18,6 +18,10 @@ const utilisateurRepository = {
       findUtilisateurByEmail : async (email) => {
         return await Utilisateurs.findOne({ where: { email } });
       },
+
+      logout: (req, res) => {
+        res.clearCookie('token');
+      },
 }
 
 

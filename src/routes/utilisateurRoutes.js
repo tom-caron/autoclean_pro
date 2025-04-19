@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
 const utilisateurController = require('../controllers/utilisateurController');
+const checkNotAuthenticated = require('../middlewares/checkNotAuthenticated');
 
 
 
 //Inscription
-router.get('/register', (req, res) => {
+router.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('connexion/register', { user: req.user, visiteur: null });
 });
 
@@ -28,7 +29,7 @@ router.post('/register', [
 
 
 //connexion
-router.get('/login', (req, res) => {
+router.get('/login', checkNotAuthenticated, (req, res) => {
     res.render('connexion/login', { user: req.user, visiteur: null });
 });
 
