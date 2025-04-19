@@ -44,6 +44,12 @@ const utilisateurController = {
     
         const token = authService.generateToken(user);
         res.cookie('token', token, { httpOnly: true });
+
+        if (user.role == 'client'){
+          return res.redirect('/');
+        }else {
+          return res.render('admin/dashboard');
+        }
     
         return res.redirect('/');
       } catch (error) {

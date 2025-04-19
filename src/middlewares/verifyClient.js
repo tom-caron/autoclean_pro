@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
   }
 
   const user = authService.verifyToken(token);
-  if (!user || user.role !== 1) {
+  if (!user || user.role) {
     return res.redirect('/');
   }
 

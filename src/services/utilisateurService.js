@@ -20,9 +20,11 @@ const utilisateurService = {
 
       loginUtilisateur: async (email, password) => {
         let user = await utilisateurRepository.findUtilisateurByEmail(email);
+        let userType = 'client';
       
         if (!user) {
           user = await employeRepository.findEmployeByEmail(email);
+          userType = 'employe';
         }
       
         if (!user) {
@@ -35,10 +37,12 @@ const utilisateurService = {
           throw new Error("Mot de passe incorrect");
         }
       
+        // On ajoute un champ pour savoir quel type d'utilisateur s'est connecté
+        user.role = userType;
+      
         return user;
       },
       
-
       deconnexion: (req, res) => {
         try {
           utilisateurRepository.logout();
