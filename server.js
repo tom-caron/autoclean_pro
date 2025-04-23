@@ -26,7 +26,7 @@ app.use('/', index);
 app.use('/users', userRoutes);
 app.use('/rendez-vous', rendezVousRoutes);
 app.use('/api', apiRoutes);
-app.use('/employe', employeRoutes);
+app.use('/admin', employeRoutes);
 
 
 app.set('view engine', 'ejs');

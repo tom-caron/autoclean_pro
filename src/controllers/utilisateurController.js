@@ -48,10 +48,9 @@ const utilisateurController = {
         if (user.role == 'client'){
           return res.redirect('/');
         }else {
-          return res.render('admin/dashboard');
+          return res.redirect('/admin/dashboard');
         }
-    
-        return res.redirect('/');
+
       } catch (error) {
         console.error(error.message);
         return res.status(401).render('connexion/login', {

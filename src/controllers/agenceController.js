@@ -1,5 +1,4 @@
 const agenceRepository = require('../repositories/agenceRepository')
-const agenceRepository = require('../repositories/agenceRepository')
 
 const agenceController = {
     getSettingAgence: async (req, res) => {

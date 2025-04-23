@@ -7,7 +7,8 @@ const authService = {
           nom: user.nom,
           prenom: user.prenom,
           email: user.email,
-          role: user.id_role
+          role: user.id_role,
+          agenceId: user.agence_id
         };
       
         return jwt.sign(tokenData, 'votre_secret', { expiresIn: '5h' });

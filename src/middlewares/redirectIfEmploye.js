@@ -1,4 +1,3 @@
-// middlewares/checkNotAuthenticated.js
 const authService = require('../services/authService');
 
 module.exports = (req, res, next) => {
