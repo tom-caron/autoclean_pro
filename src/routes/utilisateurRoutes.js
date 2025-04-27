@@ -40,6 +40,8 @@ router.post('/login', utilisateurController.signIn);
 //profile
 router.get('/profile', redirectIfNotConnected, verifyToken, utilisateurController.getProfile);
 
+router.get('/mes-rendez-vous', redirectIfNotConnected, verifyToken, utilisateurController.getMesRendezVous);
+
 router.get('/settings', redirectIfNotConnected, verifyToken, utilisateurController.getSetting);
 
 router.post('/setting', redirectIfNotConnected, verifyToken, [

@@ -4,6 +4,7 @@ const authService = require ('../services/authService');
 const employeService = require('../services/employeService');
 const utilisateurRepository = require('../repositories/utilisateurRepository');
 const agenceRepository = require('../repositories/agenceRepository');
+const rendezVousService = require('../services/rendezVousService');
 
 const utilisateurController = {
     signUp: async (req, res) => {
@@ -105,7 +106,6 @@ const utilisateurController = {
 
     updateProfile: async (req, res) => {
       try {
-        console.log("voici les données de l'update", req.body);
         const errors = validationResult(req);
         //condition si il y a une erreur dans le formulaire
         if (!errors.isEmpty()) {
@@ -122,6 +122,19 @@ const utilisateurController = {
       } catch (error) {
         console.error(error);
         res.status(500).send('Erreur lors de l\'enregistrement de la l\'utilisateur.');
+      }
+    },
+
+    getMesRendezVous: async (req, res) => {
+      try {
+        const rendezVousPass = await rendezVousService.getAllRDVPassByUserId(req.user.userId, new Date());
+        const rendezVousFutur = await rendezVousService.getAllRDVFuturByUserId(req.user.userId, new Date());
+
+  
+        res.status(201).render('client/mesRendezVous', { user: req.user, rendezVousPass, rendezVousFutur });
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Erreur lors de la récupération des rendez-vous.');
       }
     },
 

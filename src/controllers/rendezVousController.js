@@ -3,6 +3,7 @@ const typesNettoyagesRepository = require('../repositories/typeNettoyageReposito
 const optionsSupplementairesRepository = require('../repositories/optionSupplementaire')
 const rendezVousService = require('../services/rendezVousService')
 const vehiculesRepository = require('../repositories/vehiculeRepository')
+const rendezVousRepository = require('../repositories/rendezVousRepository')
 
 const rendezVousController = {
     getRDVForm: async (req, res) => {
@@ -53,7 +54,25 @@ const rendezVousController = {
           console.error(err);
           res.status(500).send('Erreur lors de la création du rendez-vous');
         }
-      }
+      },
+
+      annulerRendezVous: async (req, res) => {
+        const rendezVousId = req.params.rdvId;
+
+        try {
+          const rendezVous = await rendezVousRepository.findRDVById(rendezVousId);
+
+          if (!rendezVous || rendezVous.utilisateur_id !== req.user.userId) {
+            return res.status(403).send('Accès interdit.');
+        }
+          
+        await rendezVousService.annulerRendezVous(rendezVousId);
+            res.redirect('/users/mes-rendez-vous');
+        } catch (error) {
+            console.error('Erreur lors de l\'annulation du rendez-vous:', error);
+            res.status(500).send('Erreur lors de l\'annulation du rendez-vous.');
+        }
+    }
       
 
 };

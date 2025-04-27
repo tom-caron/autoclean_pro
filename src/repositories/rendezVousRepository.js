@@ -1,5 +1,9 @@
 const RendezVous = require('../models/rendez_vous')
 const RendezVousOption = require('../models/rendez_vous_options')
+const Agences = require('../models/agences')
+const Employes = require('../models/employes')
+const { Op } = require('sequelize');
+
 
 
 const rendezVousRepository = {
@@ -31,6 +35,51 @@ const rendezVousRepository = {
           option_id: optionId,
         });
       },
+
+      findRDVById : async (rendezVousId) => {
+        return await RendezVous.findByPk(rendezVousId);
+      },
+
+      findAllRDVByUserId : async (utilisateur_id) => {
+        return await RendezVous.findAll({where: { utilisateur_id}});
+      },
+
+      findAllRDVPassByUserId: async (utilisateur_id, dateRDV) => {
+        return await RendezVous.findAll({
+          where: {
+            utilisateur_id,
+            date_heure: {
+              [Op.lt]: new Date(dateRDV)  // Sélectionne les rendez-vous avant la date passée en paramètre
+            }
+          },
+          include: [
+            { model: Agences, as: 'agence' },
+            { model: Employes, as: 'employe' }
+          ],
+          order: [['date_heure', 'ASC']]  // Tri décroissant par date
+        })
+      },
+
+      findAllRDVFuturByUserId: async (utilisateur_id, dateRDV) => {
+        return await RendezVous.findAll({
+          where: {
+            utilisateur_id,
+            date_heure: {
+              [Op.gt]: new Date(dateRDV)  // Sélectionne les rendez-vous après la date passée en paramètre
+            }
+          },
+          include: [
+            { model: Agences, as: 'agence' },
+            { model: Employes, as: 'employe' }
+          ],
+          order: [['date_heure', 'ASC']]  // Tri décroissant par date
+        });
+      },
+
+      deleteRendezVous: async (id) => {
+        return await RendezVous.destroy({ where: { id } });
+    }
+
 }
 
 

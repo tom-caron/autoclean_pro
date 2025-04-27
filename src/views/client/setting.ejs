@@ -24,7 +24,7 @@
                     <h1 class="text-center">Paramètre</h1>
                     <div class="card custom-card">
                         <div class="card-body">
-                            <form id="monFormulaire" action="/users/profile" method="post">
+                            <form id="monFormulaire" action="/users/setting" method="post">
                                 <!-- Vos champs de formulaire avec les valeurs en dur -->
                                 <div class="form-group col mb-3">
                                     <label for="nomUser">Nom :</label>
@@ -49,6 +49,7 @@
                                 <div class="form-group mb-3">
                                     <label for="agenceFavorite">Agence favorite :</label>
                                     <select class="form-control" id="agenceFavorite" name="agenceFavorite" disabled required>
+                                        <option value="" <%= !user.agence_favorie_id ? 'selected' : '' %>>Aucune</option>
                                         <% agences.forEach(function(agence) { %>
                                             <option value="<%= agence.id %>" <%= user.agence_favorie_id === agence.id ? 'selected' : '' %>>
                                                 <%= agence.nom %>
@@ -56,6 +57,7 @@
                                         <% }); %>
                                     </select>
                                 </div>
+                                
                                 <div class="form-group mb-3">
                                     <label for="languePreferee">Langue préférée :</label>
                                     <select class="form-control" id="languePreferee" name="languePreferee" disabled required>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>AutoClean Pro - Lavage de Voiture</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <%- include('../partials/sidebar.ejs') %>
+
+    <div class="container">
+        <!-- Titre et bouton "Prendre un nouveau rendez-vous" -->
+        <div class="d-flex justify-content-between align-items-center mb-4 pt-5">
+            <h1>Mes Rendez-vous</h1>
+            <a href="/rendez-vous/prendre-rdv" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i> Prendre un nouveau rendez-vous
+            </a>
+        </div>
+
+        <!-- Section pour les rendez-vous à venir -->
+        <div class="mb-5">
+            <h2>Rendez-vous à venir</h2>
+            <div class="list-group">
+                <% if (rendezVousFutur.length > 0) { %>
+                    <% rendezVousFutur.forEach(function(rdvFutur) { 
+                        const now = new Date();
+                        const dateRDV = new Date(rdvFutur.date_heure);
+                        const diffTime = dateRDV - now;
+                        const diffDays = diffTime / (1000 * 60 * 60 * 24);
+                    %>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5><%= rdvFutur.type_nettoyage %></h5>
+                                <p><%= dateRDV.toLocaleString('fr-FR') %></p>
+                                <p>Agence : <%= rdvFutur.agence.nom %></p>
+                                <p>Employé : <%= rdvFutur.employe.prenom %> <%= rdvFutur.employe.nom %></p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <% if (diffDays > 2) { %>
+                                    <form action="/rendez-vous/<%= rdvFutur.id %>/annuler" method="POST" class="me-2" onsubmit="return confirm('Êtes-vous sûr de vouloir annuler ce rendez-vous ?');">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-times"></i> Annuler
+                                        </button>
+                                    </form>
+                                <% } %>
+                                <span class="badge bg-success">À venir</span>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="list-group-item text-center text-muted">
+                        Pas de rendez-vous prévu
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        
+        
+        
+
+        <!-- Section pour les rendez-vous passés -->
+        <div>
+            <h2>Rendez-vous passés</h2>
+            <div class="list-group">
+                <% if (rendezVousPass.length > 0) { %>
+                    <% rendezVousPass.forEach(function(rdvPass) { %>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5><%= rdvPass.type_nettoyage %></h5>
+                                <p><%= new Date(rdvPass.date_heure).toLocaleString('fr-FR') %></p>
+                                <p>Agence : <%= rdvPass.agence.nom %></p>
+                                <p>Employé : <%= rdvPass.employe.prenom %> <%= rdvPass.employe.nom %></p>
+                            </div>
+                            <span class="badge bg-secondary">Passé</span>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="list-group-item text-center text-muted">
+                        Pas de rendez-vous passé
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -24,7 +24,21 @@ const rendezVousService = {
         }
       
         return rendezVous;
-      }
+      },
+
+      getAllRDVPassByUserId: async (utilisateur_id, dateRDV) => {
+        return await rendezVousRepository.findAllRDVPassByUserId(utilisateur_id, dateRDV);
+      },
+    
+      getAllRDVFuturByUserId: async (utilisateur_id, dateRDV) => {
+        return await rendezVousRepository.findAllRDVFuturByUserId(utilisateur_id, dateRDV);
+      },
+
+      annulerRendezVous: async (rendezVousId) => {
+        return await rendezVousRepository.deleteRendezVous(rendezVousId);
+    }
+
+
 }
 
 
