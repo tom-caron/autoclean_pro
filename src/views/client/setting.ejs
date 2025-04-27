@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>AutoClean Pro - Lavage de Voiture</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    </head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 250px; height: 100vh; position: fixed;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+            <span class="fs-4">AutoClean Pro</span>
+        </a>
+    
+        
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="/users/profile" class="nav-link link-dark">
+                    <i class="fas fa-calendar-alt me-2"></i> Mon profil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/rendez-vous" class="nav-link link-dark">
+                    <i class="fas fa-calendar-alt me-2"></i> Mes rendez-vous
+                </a>
+            </li>
+            <li>
+                <a href="/users/settings" class="nav-link link-dark">
+                    <i class="fas fa-cog me-2"></i> Paramètres
+                </a>
+            </li>
+        </ul>
+    
+        <!-- Séparé du menu, et avec mt-auto pour descendre tout en bas -->
+        <div class="mt-auto">
+            <a href="/users/logout" class="nav-link link-dark">
+                <i class="fa-solid fa-right-from-bracket me-2"></i> Se déconnecter
+            </a>
+        </div>
+    </div>
+    
+        <div class="container">
+            <div class="row justify-content-center mb-4">
+                <div class="col-md-6">
+                    <h1 class="text-center">Paramètre</h1>
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <form id="monFormulaire" action="/users/profile" method="post">
+                                <!-- Vos champs de formulaire avec les valeurs en dur -->
+                                <div class="form-group col mb-3">
+                                    <label for="nomUser">Nom :</label>
+                                    <input type="text" class="form-control" id="nomUser" name="nomUser" value="<%= user.nom %>" readonly required>
+                                </div>
+                                <div class="form-group col mb-3">
+                                    <label for="prenomUser">Prénom :</label>
+                                    <input type="text" class="form-control" id="prenomUser" name="prenomUser" value="<%= user.prenom %>" readonly required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="emailUser">Email :</label>
+                                    <input type="text" class="form-control" id="emailUser" name="emailUser" value="<%= user.email %>" readonly required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="telUser">Télephone :</label>
+                                    <input type="text" class="form-control" id="telUser" name="telUser" value="<%= user.telephone %>" readonly required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="addressUser">Adresse :</label>
+                                    <input type="text" class="form-control" id="addressUser" name="addressUser" value="<%= user.adresse %>" readonly required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="agenceFavorite">Agence favorite :</label>
+                                    <select class="form-control" id="agenceFavorite" name="agenceFavorite" disabled required>
+                                        <% agences.forEach(function(agence) { %>
+                                            <option value="<%= agence.id %>" <%= user.agence_favorie_id === agence.id ? 'selected' : '' %>>
+                                                <%= agence.nom %>
+                                            </option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="languePreferee">Langue préférée :</label>
+                                    <select class="form-control" id="languePreferee" name="languePreferee" disabled required>
+                                        <option value="FR" <%= user.langue_preferee === 'FR' ? 'selected' : '' %>>Français</option>
+                                        <option value="EN" <%= user.langue_preferee === 'EN' ? 'selected' : '' %>>Anglais</option>
+                                    </select>
+                                </div>                            
+                                <div class="text-center">
+                                    <!-- Bouton pour activer l'édition ou enregistrer les modifications -->
+                                    <button id="btnModifier" class="btn btn-primary custom-btn">Modifier</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            function activerEdition() {
+                var inputs = document.querySelectorAll('#monFormulaire input');
+                var selects = document.querySelectorAll('#monFormulaire select');
+                
+                // Activer les inputs
+                for (var i = 0; i < inputs.length; i++) {
+                    inputs[i].removeAttribute('readonly');
+                }
+                // Activer les selects
+                for (var i = 0; i < selects.length; i++) {
+                    selects[i].removeAttribute('disabled');
+                }
+            }
+
+            function desactiverEdition() {
+                var inputs = document.querySelectorAll('#monFormulaire input');
+                var selects = document.querySelectorAll('#monFormulaire select');
+                
+                // Désactiver les inputs
+                for (var i = 0; i < inputs.length; i++) {
+                    inputs[i].setAttribute('readonly', true);
+                }
+                // Désactiver les selects
+                for (var i = 0; i < selects.length; i++) {
+                    selects[i].setAttribute('disabled', true);
+                }
+            }
+        
+            // Fonction pour confirmer avant de soumettre le formulaire
+            function confirmEnregistrer() {
+                if (confirm("Êtes-vous sûr de vouloir enregistrer les modifications ?")) {
+                    document.getElementById("monFormulaire").submit();
+                }
+            }
+        
+            // Ecouteur d'événement pour le clic sur le bouton "Modifier"
+            document.getElementById('btnModifier').addEventListener('click', function(event) {
+                event.preventDefault(); // Empêche le comportement par défaut du bouton
+                var btnModifier = document.getElementById('btnModifier');
+                if (btnModifier.textContent === 'Modifier') {
+                    btnModifier.textContent = 'Enregistrer'; // Changement du texte du bouton
+                    btnModifier.classList.remove('btn-primary');
+                    btnModifier.classList.add('btn-success');
+                    activerEdition(); // Active les champs du formulaire
+                } else {
+                    confirmEnregistrer(); // Demande confirmation avant d'enregistrer
+                }
+            });
+        </script>
+    
+</body>
+</html>

@@ -4,7 +4,7 @@ const verifyToken = require('../middlewares/authMiddleware');
 const redirectIfAdmins = require('../middlewares/redirectIfAdmins');
 
 
-router.get('/', redirectIfAdmins, (req, res) => {
+router.get('/', redirectIfAdmins, verifyToken, (req, res) => {
     res.render('index', { user: req.user });
   });
 

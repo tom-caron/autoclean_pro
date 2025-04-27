@@ -50,6 +50,28 @@ const utilisateurService = {
           console.error(error.message);
         }
       },
+
+      updateUtilisateurProfile: async (req) => {
+        const userId = req.user.userId;
+    
+        const userToUpdate = await utilisateurRepository.findUtilisateurById(req.user.userId);
+    
+        if (!userToUpdate) {
+          throw new Error('Utilisateur non trouvé.');
+        }
+    
+        const updatedUser = await utilisateurRepository.update(userId, {
+          nom: req.body.nomUser,
+          prenom: req.body.prenomUser,
+          email: req.body.emailUser,
+          telephone: req.body.telUser,
+          adresse: req.body.addressUser,
+          agence_favorie: req.body.agenceFavorite,
+          langue_preferee: req.body.languePreferee,
+        });
+    
+        return updatedUser;
+      }
 }
 
 

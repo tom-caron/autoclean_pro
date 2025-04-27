@@ -3,6 +3,8 @@ const router = express.Router();
 const { body } = require('express-validator');
 const utilisateurController = require('../controllers/utilisateurController');
 const redirectIfConnected = require('../middlewares/redirectIfConnected');
+const redirectIfNotConnected = require('../middlewares/redirectIfNotConnected');
+const verifyToken = require('../middlewares/authMiddleware');
 
 
 
@@ -35,8 +37,21 @@ router.get('/login', redirectIfConnected, (req, res) => {
 
 router.post('/login', utilisateurController.signIn);
 
+//profile
+router.get('/profile', redirectIfNotConnected, verifyToken, utilisateurController.getProfile);
+
+router.get('/settings', redirectIfNotConnected, verifyToken, utilisateurController.getSetting);
+
+router.post('/setting', redirectIfNotConnected, verifyToken, [
+
+    body('nomUser').notEmpty().withMessage('Le nom est requis').isLength({ max: 50 }).withMessage('Le nom ne doit pas dépasser 50 caractères'),
+    body('prenomUser').notEmpty().withMessage('Le prénom est requis').isLength({ max: 50 }).withMessage('Le prénom ne doit pas dépasser 50 caractères'),
+    body('emailUser').trim().isEmail().withMessage('Adresse e-mail invalide'),
+    body('telUser').isLength({ max: 10 }).withMessage('Le numéro ne doit pas dépasser 10 chiffres'),
+
+], utilisateurController.updateProfile);
 
 //Déconnexion
-router.post('/logout', utilisateurController.logout);
+router.get('/logout', utilisateurController.logout);
 
 module.exports = router;
