@@ -2,6 +2,8 @@ const RendezVous = require('../models/rendez_vous')
 const RendezVousOption = require('../models/rendez_vous_options')
 const Agences = require('../models/agences')
 const Employes = require('../models/employes')
+const TypeNettoyages = require('../models/types_nettoyage')
+const Vehicules = require('../models/vehicules')
 const { Op } = require('sequelize');
 
 
@@ -54,7 +56,10 @@ const rendezVousRepository = {
           },
           include: [
             { model: Agences, as: 'agence' },
-            { model: Employes, as: 'employe' }
+            { model: Employes, as: 'employe' },
+            { model: TypeNettoyages, as: 'type_nettoyage' },
+            { model: Vehicules, as: 'vehicule', attributes: ['marque', 'modele'] },
+
           ],
           order: [['date_heure', 'ASC']]  // Tri décroissant par date
         })
@@ -70,7 +75,10 @@ const rendezVousRepository = {
           },
           include: [
             { model: Agences, as: 'agence' },
-            { model: Employes, as: 'employe' }
+            { model: Employes, as: 'employe' },
+            { model: TypeNettoyages, as: 'type_nettoyage' },
+            { model: Vehicules, as: 'vehicule', attributes: ['marque', 'modele'] },
+
           ],
           order: [['date_heure', 'ASC']]  // Tri décroissant par date
         });
@@ -78,6 +86,24 @@ const rendezVousRepository = {
 
       deleteRendezVous: async (id) => {
         return await RendezVous.destroy({ where: { id } });
+    },
+
+    findRendezVousBetweenDates : async (startDate, endDate) => {
+      return await RendezVous.findAll({
+        where: {
+          date_heure: {
+            [Op.between]: [startDate, endDate]
+          }
+        },
+        include: [
+          { model: Agences, as: 'agence', attributes: ['nom'] },
+          { model: Employes, as: 'employe', attributes: ['prenom', 'nom'] },
+          { model: TypeNettoyages, as: 'type_nettoyage', attributes: ['libelle'] },
+          { model: Vehicules, as: 'vehicule', attributes: ['marque', 'modele'] },
+
+        ],
+        order: [['date_heure', 'ASC']]
+      });
     }
 
 }

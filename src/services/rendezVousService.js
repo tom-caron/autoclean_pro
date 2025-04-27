@@ -36,7 +36,18 @@ const rendezVousService = {
 
       annulerRendezVous: async (rendezVousId) => {
         return await rendezVousRepository.deleteRendezVous(rendezVousId);
-    }
+    },
+
+    getRendezVousBetweenDates : async (startDate, endDate) => {
+      const rendezVous = await rendezVousRepository.findRendezVousBetweenDates(startDate, endDate);
+    
+      const now = new Date();
+    
+      const rendezVousFutur = rendezVous.filter(rdv => new Date(rdv.date_heure) >= now);
+      const rendezVousPass = rendezVous.filter(rdv => new Date(rdv.date_heure) < now);
+    
+      return { rendezVousFutur, rendezVousPass };
+    },
 
 
 }

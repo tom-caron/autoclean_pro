@@ -3,6 +3,7 @@ const router = express.Router();
 const verifyToken = require('../middlewares/authMiddleware');
 const disponibiliteService = require('../services/disponibiliteService')
 const employeRepository = require('../repositories/employeRepository')
+const rendezVousController = require('../controllers/rendezVousController')
 
 router.get('/disponibilites/:employe_id/:date', async (req, res) => {
     const { employe_id, date } = req.params;
@@ -21,6 +22,9 @@ router.get('/disponibilites/:employe_id/:date', async (req, res) => {
       res.status(500).json({ error: "Erreur lors de la récupération des employés." });
     }
   });
+
+router.get('/rendez-vous', verifyToken, rendezVousController.getRendezVousBetweenDates);
+
   
   
   

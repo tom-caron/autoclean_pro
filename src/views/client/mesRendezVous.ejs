@@ -27,10 +27,23 @@
             </a>
         </div>
 
+        <!-- Formulaire de filtre -->
+        <div class="d-flex justify-content-end align-items-center mb-4">
+            <form id="filterForm" class="d-flex">
+                <input type="date" name="startDate" id="startDate" class="form-control me-2" required>
+                <input type="date" name="endDate" id="endDate" class="form-control me-2" required>
+                <button type="submit" class="btn btn-primary">
+                    Filtrer
+                </button>
+            </form>
+        </div>
+  
+
+
         <!-- Section pour les rendez-vous à venir -->
         <div class="mb-5">
             <h2>Rendez-vous à venir</h2>
-            <div class="list-group">
+            <div class="list-group" id="rendezVousFuturContainer">
                 <% if (rendezVousFutur.length > 0) { %>
                     <% rendezVousFutur.forEach(function(rdvFutur) { 
                         const now = new Date();
@@ -40,8 +53,9 @@
                     %>
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
-                                <h5><%= rdvFutur.type_nettoyage %></h5>
                                 <p><%= dateRDV.toLocaleString('fr-FR') %></p>
+                                <p>Type de nettoyage : <%= rdvFutur.type_nettoyage.libelle %></p>
+                                <p>Véhicule : <%= rdvFutur.vehicule.marque %> - <%= rdvFutur.vehicule.modele %></p>
                                 <p>Agence : <%= rdvFutur.agence.nom %></p>
                                 <p>Employé : <%= rdvFutur.employe.prenom %> <%= rdvFutur.employe.nom %></p>
                             </div>
@@ -65,19 +79,16 @@
             </div>
         </div>
         
-        
-        
-
-        <!-- Section pour les rendez-vous passés -->
         <div>
             <h2>Rendez-vous passés</h2>
-            <div class="list-group">
+            <div class="list-group" id="rendezVousPasseContainer">
                 <% if (rendezVousPass.length > 0) { %>
                     <% rendezVousPass.forEach(function(rdvPass) { %>
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
-                                <h5><%= rdvPass.type_nettoyage %></h5>
                                 <p><%= new Date(rdvPass.date_heure).toLocaleString('fr-FR') %></p>
+                                <p>Type de nettoyage : <%= rdvPass.type_nettoyage.libelle %></p>
+                                <p>Véhicule : <%= rdvPass.vehicule.marque %> - <%= rdvPass.vehicule.modele %></p>
                                 <p>Agence : <%= rdvPass.agence.nom %></p>
                                 <p>Employé : <%= rdvPass.employe.prenom %> <%= rdvPass.employe.nom %></p>
                             </div>
@@ -91,8 +102,72 @@
                 <% } %>
             </div>
         </div>
-        
     </div>
+
+    <script>
+document.getElementById('filterForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+
+    try {
+        const response = await fetch(`/api/rendez-vous?startDate=${startDate}&endDate=${endDate}`);
+        const data = await response.json();
+
+        renderRendezVous(data.rendezVousFutur, data.rendezVousPass);
+    } catch (error) {
+        console.error('Erreur lors du filtrage des rendez-vous', error);
+    }
+});
+
+function renderRendezVous(rendezVousFutur, rendezVousPass) {
+    const futurContainer = document.querySelector('#rendezVousFuturContainer');
+    const passeContainer = document.querySelector('#rendezVousPasseContainer');
+
+    futurContainer.innerHTML = '';
+    passeContainer.innerHTML = '';
+
+    if (rendezVousFutur.length > 0) {
+        rendezVousFutur.forEach(rdv => {
+            const rdvElement = `
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <p>${new Date(rdv.date_heure).toLocaleString('fr-FR')}</p>
+                    <p>Type de nettoyage : ${rdv.type_nettoyage.libelle}</p>
+                    <p>Agence : ${rdv.vehicule.marque} - ${rdv.vehicule.modele}</p>
+                    <p>Agence : ${rdv.agence.nom}</p>
+                    <p>Employé : ${rdv.employe.prenom} ${rdv.employe.nom}</p>
+                </div>
+                <span class="badge bg-success">À venir</span>
+            </div>`;
+            futurContainer.innerHTML += rdvElement;
+        });
+    } else {
+        futurContainer.innerHTML = `<div class="list-group-item text-center text-muted">Pas de rendez-vous prévu</div>`;
+    }
+
+    if (rendezVousPass.length > 0) {
+        rendezVousPass.forEach(rdv => {
+            const rdvElement = `
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <p>${new Date(rdv.date_heure).toLocaleString('fr-FR')}</p>
+                    <p>Type de nettoyage : ${rdv.type_nettoyage.libelle}</p>
+                    <p>Agence : ${rdv.vehicule.marque} - ${rdv.vehicule.modele}</p>
+                    <p>Agence : ${rdv.agence.nom}</p>
+                    <p>Employé : ${rdv.employe.prenom} ${rdv.employe.nom}</p>
+                </div>
+                <span class="badge bg-secondary">Passé</span>
+            </div>`;
+            passeContainer.innerHTML += rdvElement;
+        });
+    } else {
+        passeContainer.innerHTML = `<div class="list-group-item text-center text-muted">Pas de rendez-vous passé</div>`;
+    }
+}
+</script>
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

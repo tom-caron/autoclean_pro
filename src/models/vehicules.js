@@ -38,7 +38,7 @@ const Vehicules = db.sequelize.define("Vehicules", {
 // Définir les relations
 Utilisateurs.hasMany(Vehicules, {
   foreignKey: 'utilisateur_id',
-  as: 'vehicules'
+  as: 'vehicule'
 });
 Vehicules.belongsTo(Utilisateurs, {
   foreignKey: 'utilisateur_id',

@@ -72,7 +72,25 @@ const rendezVousController = {
             console.error('Erreur lors de l\'annulation du rendez-vous:', error);
             res.status(500).send('Erreur lors de l\'annulation du rendez-vous.');
         }
-    }
+    },
+
+    getRendezVousBetweenDates : async (req, res) => {
+      try {
+        const { startDate, endDate } = req.query;
+    
+        if (!startDate || !endDate) {
+          return res.status(400).json({ error: "Les dates de début et de fin sont requises." });
+        }
+    
+        const { rendezVousFutur, rendezVousPass } = await rendezVousService.getRendezVousBetweenDates(startDate, endDate);
+    
+        res.json({ rendezVousFutur, rendezVousPass });
+    
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Erreur lors de la récupération des rendez-vous." });
+      }
+  }
       
 
 };
