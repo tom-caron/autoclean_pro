@@ -6,12 +6,11 @@ const utilisateurService = {
 
     createUtilisateur : async ({ nom, prenom, email, mot_de_passe, telephone, adresse }) => {
         const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
-
         const newUser = await utilisateurRepository.createUtilisateur({
           nom,
           prenom,
           email,
-          hashedPassword,
+          mot_de_passe: hashedPassword,
           telephone,
           adresse,
         });

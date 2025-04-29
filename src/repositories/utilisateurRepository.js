@@ -3,7 +3,6 @@ const Utilisateurs = require('../models/utilisateurs');
 const utilisateurRepository = {
 
     createUtilisateur : async ({ nom, prenom, email, mot_de_passe, telephone, adresse }) => {
-        
         const newUser = await Utilisateurs.create({
           nom,
           prenom,
