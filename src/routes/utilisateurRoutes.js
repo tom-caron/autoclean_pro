@@ -4,6 +4,7 @@ const { body } = require('express-validator');
 const utilisateurController = require('../controllers/utilisateurController');
 const redirectIfConnected = require('../middlewares/redirectIfConnected');
 const redirectIfNotConnected = require('../middlewares/redirectIfNotConnected');
+const redirectIfAdmins = require('../middlewares/redirectIfAdmins');
 const verifyToken = require('../middlewares/authMiddleware');
 
 
@@ -38,13 +39,13 @@ router.get('/login', redirectIfConnected, (req, res) => {
 router.post('/login', utilisateurController.signIn);
 
 //profile
-router.get('/profile', redirectIfNotConnected, verifyToken, utilisateurController.getProfile);
+router.get('/profile', redirectIfNotConnected, redirectIfAdmins, verifyToken, utilisateurController.getProfile);
 
-router.get('/mes-rendez-vous', redirectIfNotConnected, verifyToken, utilisateurController.getMesRendezVous);
+router.get('/mes-rendez-vous', redirectIfNotConnected, redirectIfAdmins, verifyToken, utilisateurController.getMesRendezVous);
 
-router.get('/settings', redirectIfNotConnected, verifyToken, utilisateurController.getSetting);
+router.get('/settings', redirectIfNotConnected, verifyToken, redirectIfAdmins, utilisateurController.getSetting);
 
-router.post('/setting', redirectIfNotConnected, verifyToken, [
+router.post('/setting', redirectIfNotConnected, verifyToken, redirectIfAdmins, [
 
     body('nomUser').notEmpty().withMessage('Le nom est requis').isLength({ max: 50 }).withMessage('Le nom ne doit pas dépasser 50 caractères'),
     body('prenomUser').notEmpty().withMessage('Le prénom est requis').isLength({ max: 50 }).withMessage('Le prénom ne doit pas dépasser 50 caractères'),

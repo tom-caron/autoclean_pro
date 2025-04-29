@@ -5,6 +5,7 @@ const employeController = {
     getDashboard: async (req, res) => {
         try {
           const agence = await agenceRepository.findAgenceById(req.user.agenceId);
+          console.log('je passe là', req.user.role);
           return res.status(200).render('admin/dashboard', { user: req.user, agence});
         } catch (error) {
           console.error(error);

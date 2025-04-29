@@ -4,33 +4,84 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 250px; height: 100vh; position: fixed;">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
         <span class="fs-4">AutoClean Pro</span>
     </a>
+    <hr>
 
     <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-            <a href="/users/profile" class="nav-link link-dark">
-                <i class="fa-solid fa-user me-2"></i>Mon profil
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="/users/mes-rendez-vous" class="nav-link link-dark">
-                <i class="fas fa-calendar-alt me-2"></i>Mes rendez-vous
-            </a>
-        </li>
-        <li>
-            <a href="/users/settings" class="nav-link link-dark">
-                <i class="fas fa-cog me-2"></i>Paramètres
-            </a>
-        </li>
+        <% if (user && !user.role) { %>
+            <!-- Utilisateur classique -->
+            <li class="nav-item">
+                <a href="/users/profile" class="nav-link link-dark">
+                    <i class="fa-solid fa-user me-2"></i>Mon profil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/users/mes-rendez-vous" class="nav-link link-dark">
+                    <i class="fas fa-calendar-alt me-2"></i>Mes rendez-vous
+                </a>
+            </li>
+            <li>
+                <a href="/users/settings" class="nav-link link-dark">
+                    <i class="fas fa-cog me-2"></i>Paramètres
+                </a>
+            </li>
+        <% } else if (user && user.role === 1) { %>
+            <!-- Admin -->
+            <li class="nav-item">
+                <a href="/admin/dashboard" class="nav-link link-dark">
+                    <i class="fa-solid fa-table-columns me-2"></i></i>Tableau de bord
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/users" class="nav-link link-dark">
+                    <i class="fas fa-users me-2"></i>Gestion des utilisateurs
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/users" class="nav-link link-dark">
+                    <i class="fas fa-users me-2"></i>Gestion des agences
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/rdvs" class="nav-link link-dark">
+                    <i class="fas fa-calendar-check me-2"></i>Tous les RDV
+                </a>
+            </li>
+        <% } else if (user && user.role === 2) { %>
+            <li class="nav-item">
+                <a href="/admin/dashboard" class="nav-link link-dark">
+                    <i class="fa-solid fa-table-columns me-2"></i></i>Tableau de bord
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/planning" class="nav-link link-dark">
+                    <i class="fas fa-calendar-day me-2"></i>Mon planning
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/planning" class="nav-link link-dark">
+                    <i class="fa-solid fa-user me-2"></i>Mes employés
+                </a>
+            </li>
+            <li>
+                <a href="/admin/settings" class="nav-link link-dark">
+                    <i class="fas fa-cog me-2"></i>Paramètres
+                </a>
+            </li>
+        <% } %>
     </ul>
 
-    <!-- Séparé du menu, et avec mt-auto pour descendre tout en bas -->
-    <div class="mt-auto">
-        <a href="/users/logout" class="nav-link link-dark">
-            <i class="fa-solid fa-right-from-bracket me-2"></i> Se déconnecter
-        </a>
-    </div>
+    <!-- Déconnexion toujours en bas si connecté -->
+    <% if (user) { %>
+        <div class="mt-auto">
+            <hr>
+            <a href="/users/logout" class="nav-link link-dark">
+                <i class="fa-solid fa-right-from-bracket me-2"></i> Se déconnecter
+            </a>
+        </div>
+    <% } %>
 </div>
