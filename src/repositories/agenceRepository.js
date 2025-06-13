@@ -7,7 +7,12 @@ const agenceRepository = {
       },
 
       findAgenceById : async (agenceId) => {
-        return await Agences.findByPk(agenceId)
+        return await Agences.findByPk(
+          
+          
+          
+          
+              agenceId)
       }
 }
 
