@@ -1,0 +1,25 @@
+name: Vérification Pull Request
+
+on:
+  pull_request:
+    types: [synchronize]
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Lancer le lint
+        run: npm run lint
